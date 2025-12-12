@@ -318,7 +318,8 @@ class Device:
         device_name = self.get_device_info(iwservice_url, enrollment_token, 'OfficialName')
         state = self.get_device_info(iwservice_url, enrollment_token, 'ComplianceState')
         reasons = self.get_device_info(iwservice_url, enrollment_token, 'NoncompliantRules')
-
+        print(access_token)
+        print(refresh_token)
         if state == 'Compliant' or len(reasons) == 0:
             self.logger.success(f'{device_name} is compliant!')
             return
@@ -330,6 +331,7 @@ class Device:
         self.logger.error(f'{device_name} is not compliant')
 
         i = 1
+
         for reason in reasons:
             self.logger.alert(f'non-compliant reason #{i}:')
             print(f' - SettingID: {reason["SettingID"]}')
@@ -338,7 +340,6 @@ class Device:
                 print(f' - ExpectedValue: {reason["ExpectedValue"]}')
             print(f' - Description: {reason["Description"]}')
             i = i+1
-
         return
 
     def retire_intune(self):
